@@ -1,0 +1,4 @@
+Wegeplanung
+Wie lange hält man sich in Lagerfeuern auf?
+Zeitmessung durch Level -> wie lange werden Lagerfeuer ausgenutzt. Schnell durchlaufen für Zeit
+, oder maximal warten um maximale Geschwindigkeit zu bekommen
