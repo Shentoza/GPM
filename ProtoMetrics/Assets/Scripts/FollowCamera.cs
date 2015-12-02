@@ -55,5 +55,7 @@ public class FollowCamera : MonoBehaviour
         this.transform.LookAt(viewTarget.transform.position);
 
         velocity = velocity + Time.deltaTime * acceleration;
+
+        velocity = Vector3.ClampMagnitude(velocity, 14);
     }
 }

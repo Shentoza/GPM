@@ -17,6 +17,7 @@ public class HeatSystem : MonoBehaviour {
     public Material colorCold;
 
     float oldQuote;
+    public DeathSystem death;
 
 	void Start () {
         move = (Movement)GetComponent(typeof(Movement));
@@ -28,15 +29,20 @@ public class HeatSystem : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         float quote = heat / maxHeat;
-        if (Mathf.Abs(oldQuote - quote) > .1 || warming)
+        if (Mathf.Abs(oldQuote - quote) > .1f || warming || quote == .0f)
         {
-            Debug.Log("UPDATE: " + quote);
             move.speed = move.maxSpeed * quote;
             move.angularSpeed = move.maxAngularSpeed * quote;
             rend.material.Lerp(colorCold, colorHot, quote);
             oldQuote = quote;
         }
         if(!warming)
+        {
+            if(heat == 0.0f && !warming)
+                death.Kill("Du bist erfroren");
             heat = Mathf.Clamp(heat - decayPerSecond * Time.deltaTime, 0, maxHeat);
+        }
+            
+
 	}
 }
