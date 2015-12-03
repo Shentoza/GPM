@@ -16,6 +16,7 @@ public class FinishFlag : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        death.Kill("Du hast das Ziel erreicht!");
+        if(other.gameObject.name == "Player" && !death.dead)
+            death.Kill("Geschafft",other.transform.position);
     }
 }

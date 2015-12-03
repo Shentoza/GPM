@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class HeatPackage : MonoBehaviour {
 
@@ -13,11 +13,16 @@ public class HeatPackage : MonoBehaviour {
     private AudioSource source;
     private float range;
 
+    float incomingHeat;
+    float incomingTime;
+
 	void Start () {
         playerHeat = (HeatSystem)player.GetComponent(typeof(HeatSystem));
         sphere = (SphereCollider)GetComponent(typeof(SphereCollider));
         source = (AudioSource)GetComponent(typeof(AudioSource));
         range = sphere.radius;
+
+        incomingHeat = incomingTime = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -45,7 +50,9 @@ public class HeatPackage : MonoBehaviour {
         if (other.gameObject == player)
         {
             playerHeat.warming = true;
+            incomingHeat = playerHeat.heat;
             source.mute = false;
+            incomingTime = Time.timeSinceLevelLoad-7.0f;
         }
     }
 
@@ -55,6 +62,22 @@ public class HeatPackage : MonoBehaviour {
         {
             playerHeat.warming = false;
             source.mute = true;
+
+
+            float stayedTime = (Time.timeSinceLevelLoad - 7.0f) - incomingTime;
+             UnityEngine.Analytics.Analytics.CustomEvent(
+             "FeuerEvent",
+     new Dictionary<string, object>
+     {
+         { "Hitze_Start", incomingHeat },
+         { "Hitze_Ende", playerHeat.heat },
+         { "Aufgehaltene Zeit", stayedTime },
+         {"X", other.transform.position.x },
+         {"Y", other.transform.position.y },
+         {"Z", other.transform.position.z }
+     });
         }
-    }
+        
+
+    }   
 }

@@ -44,8 +44,8 @@ public class Movement : MonoBehaviour {
         //this.transform.position += Time.deltaTime * speed; // translation based on horizontal axis
         this.transform.Rotate(Vector3.up, angular); // rotation based ob vertical axis
 
-        if (rigBody.transform.position.y <= -1.0f)
-            death.Kill("Du bist runtergefallen!");
+        if (rigBody.transform.position.y <= -1.0f && !death.dead)
+            death.Kill("Runtergefallen",rigBody.transform.position);
 
     }
 

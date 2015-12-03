@@ -38,8 +38,8 @@ public class HeatSystem : MonoBehaviour {
         }
         if(!warming)
         {
-            if(heat == 0.0f && !warming)
-                death.Kill("Du bist erfroren");
+            if(heat == 0.0f && !warming && !death.dead)
+                death.Kill("Erfroren", this.transform.position);
             heat = Mathf.Clamp(heat - decayPerSecond * Time.deltaTime, 0, maxHeat);
         }
             

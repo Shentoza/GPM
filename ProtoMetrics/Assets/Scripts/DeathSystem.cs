@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class DeathSystem : MonoBehaviour {
 
-    bool dead;
+    public bool dead;
     public UISystem uiSys;
+    public HeatSystem heat;
 
     // Use this for initialization
     void Start () {
@@ -24,10 +25,25 @@ public class DeathSystem : MonoBehaviour {
         uiSys.Respawn();
     }
 
-    public void Kill(string cause)
+    public void Kill(string cause,Vector3 position)
     {
         dead = true;
-        uiSys.Kill(cause);
+        uiSys.Kill(cause, position);
+
+        UnityEngine.Analytics.Analytics.CustomEvent(
+            cause,
+    new Dictionary < string, object >
+    {
+        { "Heat", heat.heat },
+        {"Minutes",uiSys.minutes },
+        {"Seconds",uiSys.seconds },
+        {"MS", uiSys.milliSecs },
+        {"X", position.x },
+        {"Y", position.y },
+        {"Z", position.z }
+    });
+        Debug.Log(cause);
+
     }
 
 }

@@ -8,9 +8,9 @@ public class FollowCamera : MonoBehaviour
     public float elevation = Mathf.PI / 4.0f;
     public float azimuth = 0.0f;
 
-    public float distance = 15.0f;
-    public float minDistance = 5.0f;
-    public float maxDistance = 30.0f;
+    public float distance = 20.0f;
+    public float minDistance = 15.0f;
+    public float maxDistance = 45.0f;
 
     public Vector3 velocity = new Vector3(0, 0, 0);
     public Vector3 xDest = new Vector3();

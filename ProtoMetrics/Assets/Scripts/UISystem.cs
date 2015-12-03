@@ -10,6 +10,13 @@ public class UISystem : MonoBehaviour {
     public GameObject deathUI;
     public UnityEngine.UI.Text deathMessage;
 
+    public int seconds;
+    public int minutes;
+    public int hours;
+    public float milliSecs;
+    public float rawTime;
+
+    public Tracker tracker;
     // Use this for initialization
     void Start () {
         deathUI.SetActive(false);
@@ -17,34 +24,15 @@ public class UISystem : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(!deathUI.active)
-            timeText.text = SecondsToTime();
+        if (!deathUI.active)
+            makeTime();
+
+        timeText.text = TimeToString();
 	}
 
-    string SecondsToTime()
+    public string TimeToString()
     {
 
-        //Hacky Methode, da ich -Zeit habe, um die Steuerung am anfang zu freezen
-
-
-
-        float rawTime = Time.timeSinceLevelLoad - 7.0f;
-
-        int secs = (int)Mathf.Abs(rawTime);
-
-        if (rawTime < 0)
-            rawTime += secs;
-        else
-            rawTime -= secs;
-
-        rawTime *= 100.0f;
-        int milliSecs = (int)Mathf.Abs(rawTime);
-
-        int minutes = secs / 60;
-        secs -= minutes * 60;
-
-        int hours = minutes / 60;
-        minutes -= hours * 60;
 
         string result ="Time: ";
 
@@ -62,9 +50,9 @@ public class UISystem : MonoBehaviour {
         else
             result += "   ";
 
-        if (secs < 10)
+        if (seconds < 10)
             result += "0";
-        result += secs+".";
+        result += seconds + ".";
 
 
         if(milliSecs < 10)
@@ -75,10 +63,33 @@ public class UISystem : MonoBehaviour {
 
         if(rawTime < 0.0f)
         {
-            result = "Time:       -"+secs.ToString()+"."+milliSecs.ToString();
+            result = "Time:       -"+ seconds.ToString()+"."+milliSecs.ToString();
         }
 
         return result;
+    }
+
+    void makeTime()
+    {
+
+        //Hacky Methode, da ich -Zeit habe, um die Steuerung am anfang zu freezen
+        rawTime = Time.timeSinceLevelLoad - 7.0f;
+
+        seconds = (int)Mathf.Abs(rawTime);
+
+        if (rawTime < 0)
+            rawTime += seconds;
+        else
+            rawTime -= seconds;
+
+        rawTime *= 100.0f;
+        milliSecs = (int)Mathf.Abs(rawTime);
+
+        minutes = seconds / 60;
+        seconds -= minutes * 60;
+
+        hours = minutes / 60;
+        minutes -= hours * 60;
     }
 
     public void Respawn()
@@ -86,8 +97,9 @@ public class UISystem : MonoBehaviour {
         deathUI.SetActive(false);
     }
 
-    public void Kill(string cause)
+    public void Kill(string cause, Vector3 position)
     {
+        tracker.LogPosition(position);
         deathUI.SetActive(true);
         deathMessage.text = cause;
     }
