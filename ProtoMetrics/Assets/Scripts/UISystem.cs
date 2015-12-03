@@ -57,7 +57,7 @@ public class UISystem : MonoBehaviour {
         {
             if (minutes < 10)
                 result += "0";
-            result += minutes.ToString();
+            result += minutes.ToString()+":";
         }
         else
             result += "   ";

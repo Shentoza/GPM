@@ -33,6 +33,10 @@ public class HeatPackage : MonoBehaviour {
         if (other.gameObject == player)
         {
             playerHeat.heat = Mathf.Clamp(playerHeat.heat + heatPerSecond * Time.deltaTime, 0, playerHeat.maxHeat);
+            if (playerHeat.heat == playerHeat.maxHeat)
+                source.mute = true;
+            else
+                source.mute = false;
         }
     }
 
