@@ -10,11 +10,13 @@ public class HeatPackage : MonoBehaviour {
     float currentDistance;
 
     private SphereCollider sphere;
+    private AudioSource source;
     private float range;
 
 	void Start () {
         playerHeat = (HeatSystem)player.GetComponent(typeof(HeatSystem));
         sphere = (SphereCollider)GetComponent(typeof(SphereCollider));
+        source = (AudioSource)GetComponent(typeof(AudioSource));
         range = sphere.radius;
 	}
 	
@@ -39,6 +41,7 @@ public class HeatPackage : MonoBehaviour {
         if (other.gameObject == player)
         {
             playerHeat.warming = true;
+            source.mute = false;
         }
     }
 
@@ -47,6 +50,7 @@ public class HeatPackage : MonoBehaviour {
         if (other.gameObject == player)
         {
             playerHeat.warming = false;
+            source.mute = true;
         }
     }
 }

@@ -23,13 +23,22 @@ public class UISystem : MonoBehaviour {
 
     string SecondsToTime()
     {
-        Debug.Log(Time.timeSinceLevelLoad);
+
+        //Hacky Methode, da ich -Zeit habe, um die Steuerung am anfang zu freezen
+
+
+
         float rawTime = Time.timeSinceLevelLoad - 7.0f;
 
-        int secs = (int)rawTime;
-        rawTime -= secs;
+        int secs = (int)Mathf.Abs(rawTime);
+
+        if (rawTime < 0)
+            rawTime += secs;
+        else
+            rawTime -= secs;
+
         rawTime *= 100.0f;
-        int milliSecs = (int)rawTime;
+        int milliSecs = (int)Mathf.Abs(rawTime);
 
         int minutes = secs / 60;
         secs -= minutes * 60;
@@ -66,7 +75,7 @@ public class UISystem : MonoBehaviour {
 
         if(rawTime < 0.0f)
         {
-            result = "Time: ";
+            result = "Time:       -"+secs.ToString()+"."+milliSecs.ToString();
         }
 
         return result;
