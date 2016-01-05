@@ -9,6 +9,7 @@ public class UISystem : MonoBehaviour {
 
     public GameObject deathUI;
     public UnityEngine.UI.Text deathMessage;
+    public HeatSystem heaty;
 
     public int seconds;
     public int minutes;
@@ -28,7 +29,19 @@ public class UISystem : MonoBehaviour {
             makeTime();
 
         timeText.text = TimeToString();
+        heatText.text = GetHeatText();
 	}
+
+    private string GetHeatText()
+    {
+        String result = "Heat: ";
+        if(heaty != null)
+        { 
+            int quote = (int)((heaty.heat / heaty.maxHeat) * 100);
+            result += quote + "%";
+        }
+        return result;
+    }
 
     public string TimeToString()
     {
