@@ -13,8 +13,15 @@ public class HeatPackage : MonoBehaviour {
     private AudioSource source;
     private float range;
 
+    public float maxHeat;
+    public float heat;
+
     float incomingHeat;
     float incomingTime;
+
+    bool active;
+
+    public GameObject wholeSpot;
 
 	void Start () {
         playerHeat = (HeatSystem)player.GetComponent(typeof(HeatSystem));
@@ -30,6 +37,8 @@ public class HeatPackage : MonoBehaviour {
         Vector2 spherePos = new Vector2(this.transform.position.x, this.transform.position.z);
         Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
         currentDistance = Vector2.Distance(spherePos,playerPos);
+        if (heat == 0)
+            Destroy(wholeSpot);
 	}
 
     void OnTriggerStay(Collider other)
@@ -37,7 +46,9 @@ public class HeatPackage : MonoBehaviour {
         float quoteInRange = Mathf.Clamp01(1 - (currentDistance / range));
         if (other.gameObject == player)
         {
-            playerHeat.heat = Mathf.Clamp(playerHeat.heat + heatPerSecond * Time.deltaTime, 0, playerHeat.maxHeat);
+            float addedValue = heatPerSecond * Time.deltaTime;
+            playerHeat.heat = Mathf.Clamp(playerHeat.heat + addedValue, 0, playerHeat.maxHeat);
+            heat = Mathf.Clamp(heat + addedValue, 0, maxHeat);
             if (playerHeat.heat == playerHeat.maxHeat)
                 source.mute = true;
             else

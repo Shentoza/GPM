@@ -19,10 +19,7 @@ public class DeathSystem : MonoBehaviour {
 
     public void Respawn()
     {
-        Debug.Log("CALLED");
-        dead = false;
         Application.LoadLevel(Application.loadedLevel);
-        uiSys.Respawn();
     }
 
     public void Kill(string cause,Vector3 position)
@@ -42,7 +39,6 @@ public class DeathSystem : MonoBehaviour {
         {"Y", position.y },
         {"Z", position.z }
     });
-        Debug.Log(cause);
 
     }
 
