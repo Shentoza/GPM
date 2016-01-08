@@ -193,7 +193,7 @@ public class Heatmap : ScriptableObject {
 
 		projectionPlane.GetComponent<MeshFilter>().sharedMesh = m;
 		MeshRenderer mr = projectionPlane.GetComponent<MeshRenderer>();
-		Material mat = (Material)Resources.Load("UnlitMaterial");
+        Material mat = (Material)Resources.Load("UnlitMaterial");
 		mat.mainTexture = map;
 		mr.sharedMaterial = mat;
 
