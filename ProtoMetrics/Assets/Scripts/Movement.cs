@@ -9,6 +9,9 @@ public class Movement : MonoBehaviour {
     public float angularSpeed = 3.2f;
     public float maxAngularSpeed = 3.2f;
     Rigidbody rigBody;
+    Camera cam;
+
+    private Vector3 input;
 
     public DeathSystem death;
 
@@ -16,6 +19,8 @@ public class Movement : MonoBehaviour {
     void Start()
     {
         rigBody = (Rigidbody)GetComponent(typeof(Rigidbody));
+        input = new Vector3();
+        cam = Camera.main;
     }
 
     // Update is called once per frame
@@ -29,16 +34,16 @@ public class Movement : MonoBehaviour {
             Debug.DrawLine(origin, origin + 2.0f * this.transform.up, Color.green);
             Debug.DrawLine(origin, origin + 2.0f * this.transform.forward, Color.blue);
         }*/
-
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        input.x = Input.GetAxis("Horizontal");
+        input.y = Input.GetAxis("Vertical");
 
         if (Time.timeSinceLevelLoad <= 7.0f)
-            v = h = 0.0f;
+            input.Set(0, 0, 0);
 
-        float angular = angularSpeed * h;
+        float angular = angularSpeed * input.x;
         Vector3 yVelocity = new Vector3(0,rigBody.velocity.y,0);
-        Vector3 speedVec = this.transform.forward * speed * v;
+        Vector3 speedVec = this.transform.forward * speed * input.y;
+
 
         rigBody.velocity = speedVec + yVelocity;
         //this.transform.position += Time.deltaTime * speed; // translation based on horizontal axis

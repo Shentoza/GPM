@@ -19,9 +19,10 @@ public class HeatPackage : MonoBehaviour {
     float incomingHeat;
     float incomingTime;
 
-    bool active;
+    public bool active;
 
     public GameObject wholeSpot;
+    public UI_FireBar barUI;
 
 	void Start () {
         playerHeat = (HeatSystem)player.GetComponent(typeof(HeatSystem));
@@ -38,21 +39,46 @@ public class HeatPackage : MonoBehaviour {
         Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
         currentDistance = Vector2.Distance(spherePos,playerPos);
         if (heat == 0)
+        {
+            playerHeat.warming = false;
             Destroy(wholeSpot);
+        }
 	}
 
     void OnTriggerStay(Collider other)
     {
-        float quoteInRange = Mathf.Clamp01(1 - (currentDistance / range));
         if (other.gameObject == player)
         {
-            float addedValue = heatPerSecond * Time.deltaTime;
-            playerHeat.heat = Mathf.Clamp(playerHeat.heat + addedValue, 0, playerHeat.maxHeat);
-            heat = Mathf.Clamp(heat + addedValue, 0, maxHeat);
-            if (playerHeat.heat == playerHeat.maxHeat)
-                source.mute = true;
+            active = true;
+            float calculated = heatPerSecond * Time.deltaTime;
+
+            //Hitze die abgezogen werden kann geclamped auf 0
+            float transferredHeat;
+            if (heat - calculated <= 0)
+            {
+                transferredHeat = heat;
+                heat = 0.0f;
+            }
             else
-                source.mute = false;
+            {
+                transferredHeat = calculated;
+                heat -= transferredHeat;
+            }
+
+            float receivedHeat;
+            if(playerHeat.heat + transferredHeat >= playerHeat.maxHeat)
+            {
+                receivedHeat = playerHeat.maxHeat - playerHeat.heat;
+                heat += transferredHeat - receivedHeat;
+                playerHeat.heat = playerHeat.maxHeat;
+            }
+            else
+            {
+                receivedHeat = transferredHeat;
+                playerHeat.heat += transferredHeat;
+            }
+
+            source.mute = heat == 0.0f || playerHeat.heat == playerHeat.maxHeat;
         }
     }
 
@@ -71,6 +97,7 @@ public class HeatPackage : MonoBehaviour {
     {
         if (other.gameObject == player)
         {
+            active = false;
             playerHeat.warming = false;
             source.mute = true;
 
