@@ -6,8 +6,8 @@ public class Movement : MonoBehaviour {
 
     public float speed = 4.0f;
     public float maxSpeed = 4.0f;
-    public float angularSpeed = 3.2f;
-    public float maxAngularSpeed = 3.2f;
+    public float angularSpeed = 5.4f;
+    public float maxAngularSpeed = 5.4f;
     Rigidbody rigBody;
     Camera cam;
 

@@ -54,22 +54,26 @@ public class HeatPackage : MonoBehaviour {
 
             //Hitze die abgezogen werden kann geclamped auf 0
             float transferredHeat;
-            if (heat - calculated <= 0)
+            if (maxHeat != -1)
             {
-                transferredHeat = heat;
-                heat = 0.0f;
+                if (heat - calculated <= 0)
+                {
+                    transferredHeat = heat;
+                    heat = 0.0f;
+                }
+                else
+                {
+                    transferredHeat = calculated;
+                    heat -= transferredHeat;
+                }
             }
             else
-            {
                 transferredHeat = calculated;
-                heat -= transferredHeat;
-            }
 
             float receivedHeat;
             if(playerHeat.heat + transferredHeat >= playerHeat.maxHeat)
             {
                 receivedHeat = playerHeat.maxHeat - playerHeat.heat;
-                heat += transferredHeat - receivedHeat;
                 playerHeat.heat = playerHeat.maxHeat;
             }
             else

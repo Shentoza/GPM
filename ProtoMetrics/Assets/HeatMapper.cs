@@ -20,7 +20,6 @@ public class HeatMapper : MonoBehaviour {
         {
             done = true;
             Vector3[] deathVec = StringUtility.Vector3ArrayWithFile(deaths);
-            Debug.Log(deathVec[0]);
 
 
             Vector3[] movementVec = StringUtility.Vector3ArrayWithFile(movement);
@@ -36,7 +35,7 @@ public class HeatMapper : MonoBehaviour {
 
             meshr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
-            Heatmap.Screenshot("movement.png", usedCam);
+            Heatmap.Screenshot("post_movement.png", usedCam);
         }
         if(done && Input.GetKeyDown("2"))
         {
@@ -46,7 +45,7 @@ public class HeatMapper : MonoBehaviour {
 
             meshr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
-            Heatmap.Screenshot("death.png", usedCam);
+            Heatmap.Screenshot("post_death.png", usedCam);
         }
     }
 }
